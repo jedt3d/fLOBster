@@ -5,5 +5,8 @@ fLOBster is planned as a Flutter-based line of business application framework in
 The first planning artifact is here:
 
 - [Line of Business Flutter Framework Plan](docs/lob-flutter-framework-plan.md)
+- [Product Decisions](docs/product/DECISIONS.md)
+- [Contact Management Vertical Slice](docs/product/contact-management-vertical-slice.md)
+- [Phase 1 Roadmap](docs/engineering/phase-1-roadmap.md)
 
 Current recommendation: start with a Customer/Contact reference module on Flutter desktop/web plus Serverpod/PostgreSQL, then extract reusable framework packages after the CRUD workflow is proven.
