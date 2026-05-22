@@ -10,7 +10,7 @@ This file captures product-owner decisions that should guide the next planning a
 | Area | Decision |
 | --- | --- |
 | First reference module | Contact Management |
-| Primary deployment target | Desktop and web first |
+| Primary deployment target | macOS desktop first, Windows second, web later |
 | Backend mode | Serverpod plus PostgreSQL |
 | Authentication | Email and password |
 | Offline support | Not required for Phase 1 |
@@ -19,6 +19,8 @@ This file captures product-owner decisions that should guide the next planning a
 | Field inspiration | Use Apple Contacts-style fields as the starting vocabulary |
 | Tags/categories | Include lightweight tags and categories |
 | Restore permission | Admin users only |
+| Person relationship scope | One Person links to at most one Company in Phase 1 |
+| Audit visibility | Admin users only |
 
 ## Interpretation
 
@@ -63,7 +65,7 @@ Phase 1 should treat Person, Company, and Organization as separate models:
 - Company: a business/legal commercial entity.
 - Organization: a non-company entity such as department, association, government office, school, community, or internal unit.
 
-Relationships should be explicit and expandable. For Phase 1, a Person may optionally link to one Company and one Organization.
+Relationships should be explicit and expandable. For Phase 1, a Person may optionally link to one Company. Multiple company relationships are deferred.
 
 ### Tags And Categories
 
@@ -78,18 +80,23 @@ Avoid custom fields in Phase 1 unless required later.
 
 Only administrators can restore soft-deleted Person, Company, or Organization records. Normal users may delete only if permitted by role, but restore is admin-only in Phase 1.
 
-### Desktop And Web First
+### macOS Desktop First
 
-The primary UI should support desktop-class usage:
+The primary UI should target macOS desktop first:
 
 - Dense table views.
 - Keyboard-friendly forms.
 - Multi-pane navigation.
 - Right-side preview sheet.
-- Browser deployment.
-- Desktop deployment path after the Flutter scaffold is proven.
+- Native macOS packaging path.
+- Windows desktop after macOS is proven.
+- Web platform after the desktop workflow is proven.
 
-Mobile remains a future companion experience.
+Web and mobile remain future companion experiences.
+
+### Admin-Only Audit Visibility
+
+Audit metadata is recorded for business integrity, but audit history views should be visible only to administrators in Phase 1.
 
 ### Serverpod Plus PostgreSQL
 
@@ -112,6 +119,5 @@ Reports and report designer work are deferred. The Contact Management vertical s
 ## Open Decisions For Next Review
 
 - Exact required fields for Person, Company, and Organization forms.
-- Whether Person can link to multiple companies/organizations in Phase 1 or only one of each.
-- Whether the first desktop target should be macOS, Windows, or both after web works.
-- Whether audit history is visible to normal users or only administrators.
+- Whether Person should link to Organization in Phase 1.
+- Required permissions for normal users to delete records.

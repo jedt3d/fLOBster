@@ -15,6 +15,9 @@ This is not yet a full CRM. It is the smallest useful business module that can v
 - The first field vocabulary is inspired by Apple Contacts on macOS/iOS.
 - Tags and categories are included lightly in Phase 1.
 - Only administrators can restore deleted records.
+- A person can link to only one company in Phase 1.
+- Audit history is visible only to administrators.
+- macOS desktop is the first deployment target, followed by Windows, then web.
 - Offline sync and reports are out of scope for Phase 1.
 
 ## Users
@@ -52,6 +55,8 @@ This is not yet a full CRM. It is the smallest useful business module that can v
 
 - Offline sync.
 - Native mobile app.
+- Windows desktop.
+- Web platform.
 - Report designer.
 - PDF/HTML reports.
 - Supabase adapter.
@@ -128,7 +133,8 @@ Recommended later fields:
 - `preferredContactMethod`
 - `website`
 - `socialProfiles`
-- multiple company/organization relationships
+- multiple company relationships
+- organization relationship rules
 - custom fields
 
 ### Company
@@ -287,13 +293,15 @@ Acceptance criteria:
 
 1. User selects a person, company, or organization in the list.
 2. Preview sheet opens from the right.
-3. User sees read-only record details and audit summary.
-4. User can open the full editor.
+3. User sees read-only record details.
+4. Admin users can see audit summary.
+5. User can open the full editor.
 
 Acceptance criteria:
 
 - Preview sheet is read-only by default.
 - Preview sheet has Edit, Delete, and Close actions.
+- Audit history is hidden from non-admin users.
 - Delete action requires confirmation.
 - Opening editor keeps the selected record context.
 
@@ -400,6 +408,7 @@ Backend:
 - Server-side validation.
 - Soft delete enforced server-side.
 - Admin-only restore enforced server-side.
+- Audit history access restricted to administrators.
 - Audit event creation inside server-side command flow.
 
 ## Testing Requirements
@@ -418,6 +427,7 @@ Widget tests:
 - Form displays validation errors.
 - Delete confirmation appears.
 - Restore action is hidden for non-admin users.
+- Audit history is hidden for non-admin users.
 
 Server tests:
 
@@ -427,9 +437,11 @@ Server tests:
 - Soft delete records.
 - Restore records as admin.
 - Reject restore as non-admin.
+- Return audit history to admin users.
+- Reject audit history access for non-admin users.
 - Exclude deleted records from active lists.
 - Create audit event on create/update/delete/restore.
 
 ## Phase 1 Exit Criteria
 
-The vertical slice is complete when a signed-in user can manage people, companies, and organizations end to end from a desktop/web Flutter UI backed by Serverpod and PostgreSQL, with admin-only restore behavior enforced server-side and tests covering the main workflows.
+The vertical slice is complete when a signed-in user can manage people, companies, and organizations end to end from a macOS desktop Flutter UI backed by Serverpod and PostgreSQL, with admin-only restore and audit visibility enforced server-side and tests covering the main workflows.

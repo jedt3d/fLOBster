@@ -5,13 +5,13 @@ Date: 2026-05-22
 
 ## Phase 1 Goal
 
-Deliver a working Contact Management vertical slice for desktop and web using Flutter, Serverpod, PostgreSQL, and email/password authentication.
+Deliver a working Contact Management vertical slice for macOS desktop using Flutter, Serverpod, PostgreSQL, and email/password authentication. Windows desktop follows after macOS is proven; web is deferred until the desktop workflow is stable.
 
 ## Scope Guardrails
 
 Phase 1 includes:
 
-- Flutter desktop/web app shell.
+- Flutter macOS desktop app shell.
 - Serverpod backend.
 - PostgreSQL database.
 - Email/password sign in.
@@ -19,6 +19,7 @@ Phase 1 includes:
 - Admin-only restore.
 - Lightweight categories and tags.
 - Basic audit events.
+- Admin-only audit history visibility.
 - Automated tests around the reference workflow.
 
 Phase 1 excludes:
@@ -26,6 +27,7 @@ Phase 1 excludes:
 - Offline sync.
 - Native mobile app.
 - Supabase adapter.
+- Web platform.
 - Reports and report designer.
 - Record-sharing chat.
 - Advanced dashboard analytics.
@@ -60,7 +62,7 @@ Deliverables:
 
 Done when:
 
-- A user can sign in, reach the Contact list shell, refresh the web app, and sign out.
+- A user can sign in, reach the Contact list shell, close/reopen the macOS app, and sign out.
 
 ### 3. Contact Management Backend
 
@@ -76,11 +78,12 @@ Deliverables:
 - Serverpod endpoints.
 - Validation.
 - Soft delete and admin-only restore behavior.
+- Admin-only audit history access.
 - Endpoint tests.
 
 Done when:
 
-- Backend tests prove create, read, update, soft delete, admin-only restore, and audit event creation for people, companies, and organizations.
+- Backend tests prove create, read, update, soft delete, admin-only restore, admin-only audit access, and audit event creation for people, companies, and organizations.
 
 ### 4. Contact Management Lists And Preview
 
@@ -113,6 +116,7 @@ Deliverables:
 - Save status.
 - Conflict handling using `rowVersion`.
 - Save failure recovery.
+- One-company-per-person relationship rule.
 - Widget and ViewModel tests.
 
 Done when:
@@ -162,8 +166,9 @@ Done when:
 ## Risks To Manage
 
 - Serverpod auth package fit for the exact email/password behavior.
-- Flutter data grid choice for desktop/web density and keyboard behavior.
-- Web and desktop layout differences.
+- Flutter data grid choice for desktop density, keyboard behavior, and future web compatibility.
+- Avoiding layout assumptions that would block the later web platform.
+- macOS packaging and signing decisions.
 - Concurrency behavior around `rowVersion`.
 - Avoiding premature framework extraction before the first module is real.
 
@@ -172,5 +177,5 @@ Done when:
 Before implementation, confirm:
 
 - Exact required fields for Person, Company, and Organization forms.
-- Whether Person can link to multiple companies/organizations in Phase 1 or only one of each.
-- Which desktop runtime matters first after web: macOS or Windows.
+- Whether Person should link to Organization in Phase 1.
+- Required permissions for normal users to delete records.

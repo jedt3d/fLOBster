@@ -44,7 +44,7 @@ Build a framework for serious business applications where developers and advance
 - Opinionated defaults over blank canvas flexibility.
 - CRUD workflows that are pleasant, recoverable, and auditable.
 - Database-first thinking without database-coupled UI code.
-- Desktop and web as the primary full-power experience.
+- Desktop as the primary full-power experience, starting with macOS.
 - Mobile as a focused companion experience, not a forced copy of desktop.
 - Specification, tests, and examples are part of every feature.
 - AI agents should be able to safely implement, test, and explain changes from local docs.
@@ -68,7 +68,7 @@ Build a framework for serious business applications where developers and advance
 
 ### Full Experience
 
-Desktop and web should receive the full line of business experience:
+Desktop should receive the full line of business experience first, starting with macOS and then Windows. Web should follow after the desktop workflow is proven.
 
 - Multi-pane shell.
 - Navigation sidebar or rail.
@@ -135,7 +135,7 @@ Recommended initial repository structure:
 
 ```text
 apps/
-  flobster_desktop/          # Flutter desktop/web reference app
+  flobster_desktop/          # Flutter macOS-first desktop reference app
   flobster_mobile/           # Optional later mobile-specific shell if needed
 packages/
   flobster_core/             # Result, errors, IDs, permissions, audit primitives
@@ -229,7 +229,7 @@ For serious business apps, define clear rules:
 
 ### Application Shell
 
-The default desktop/web shell should have:
+The default desktop shell should have:
 
 - Left navigation sidebar or rail.
 - Top command/search area.
@@ -270,7 +270,7 @@ Right record preview sheet when a row is selected
 
 ### Record Preview Sheet
 
-The sheet should be read-only by default and slide from the right on desktop/web.
+The sheet should be read-only by default and slide from the right on desktop.
 
 It should show:
 
@@ -827,6 +827,6 @@ The next planning conversation should settle:
 
 ## 18. Initial Recommendation
 
-Begin with a Contact Management vertical slice on Flutter desktop/web plus Serverpod/PostgreSQL. Model Person, Company, and Organization as separate records. Defer mobile offline, Supabase adapter, and visual report designer until the core CRUD workflow is proven.
+Begin with a Contact Management vertical slice on Flutter macOS desktop plus Serverpod/PostgreSQL. Model Person, Company, and Organization as separate records. Defer Windows, web, mobile offline, Supabase adapter, and visual report designer until the core CRUD workflow is proven.
 
 This is the best starting point because it exercises the framework's most important reusable pieces: list view, preview sheet, full form, validation, drafts, save states, soft delete, admin-only restore, permissions, audit, and tests.

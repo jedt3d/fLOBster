@@ -9,4 +9,4 @@ The first planning artifact is here:
 - [Contact Management Vertical Slice](docs/product/contact-management-vertical-slice.md)
 - [Phase 1 Roadmap](docs/engineering/phase-1-roadmap.md)
 
-Current Phase 1 scope: start with Contact Management for separate Person, Company, and Organization records on Flutter desktop/web plus Serverpod/PostgreSQL, then extract reusable framework packages after the workflow is proven.
+Current Phase 1 scope: start with Contact Management for separate Person, Company, and Organization records on Flutter macOS desktop plus Serverpod/PostgreSQL, then target Windows and web after the workflow is proven.
