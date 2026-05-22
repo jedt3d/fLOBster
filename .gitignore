@@ -1,0 +1,17 @@
+.DS_Store
+.dart_tool/
+.packages
+.pub-cache/
+.pub/
+build/
+coverage/
+*.iml
+
+# Flutter and IDE local state
+.flutter-plugins
+.flutter-plugins-dependencies
+.idea/
+
+# Serverpod and local secrets
+server/*/config/passwords.yaml
+server/*/web/app/

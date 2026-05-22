@@ -1,0 +1,10 @@
+name: flobster_workspace
+publish_to: none
+
+environment:
+  sdk: ^3.11.5
+
+workspace:
+  - apps/flobster_desktop
+  - server/flobster_client
+  - server/flobster_server

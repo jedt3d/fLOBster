@@ -1,0 +1,44 @@
+services:
+  # Development services
+  postgres:
+    image: pgvector/pgvector:pg16
+    ports:
+      - "8090:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_DB: flobster
+      POSTGRES_PASSWORD: "KVGwHm9-q7lbajZNE9ab8URmhd-LqGRj"
+    volumes:
+      - flobster_data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:6.2.6
+    ports:
+      - "8091:6379"
+    command: redis-server --requirepass "oUUqISbpbKodINEHAwYpQT2iF0iVMqZg"
+    environment:
+      - REDIS_REPLICATION_MODE=master
+
+  # Test services
+  postgres_test:
+    image: pgvector/pgvector:pg16
+    ports:
+      - "9090:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_DB: flobster_test
+      POSTGRES_PASSWORD: "JkxddGPoTvPm46L9dcAy2mjkR9bwJhqU"
+    volumes:
+      - flobster_test_data:/var/lib/postgresql/data
+
+  redis_test:
+    image: redis:6.2.6
+    ports:
+      - "9091:6379"
+    command: redis-server --requirepass "RFQtir_wuWBGNB473DFEI9RI8DPcG1P2"
+    environment:
+      - REDIS_REPLICATION_MODE=master
+
+volumes:
+  flobster_data:
+  flobster_test_data:
