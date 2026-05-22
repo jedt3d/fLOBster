@@ -11,7 +11,7 @@ Building all of that at once would make the framework hard to validate and hard 
 
 ## Decision
 
-Phase 1 will focus on Contact Management as a desktop/web vertical slice.
+Phase 1 will focus on Contact Management as a desktop/web vertical slice. Contact Management will include separate Person, Company, and Organization models.
 
 The selected stack is:
 
@@ -19,6 +19,8 @@ The selected stack is:
 - Serverpod.
 - PostgreSQL.
 - Email/password authentication.
+- Lightweight categories and tags.
+- Admin-only restore for soft-deleted records.
 
 Phase 1 explicitly excludes:
 
@@ -29,9 +31,10 @@ Phase 1 explicitly excludes:
 - Report designer.
 - Realtime chat.
 - Advanced dashboards.
+- Custom fields.
 
 ## Consequences
 
-The first implementation can concentrate on core line of business patterns: list, search, preview, form, validation, save state, soft delete, restore, and audit.
+The first implementation can concentrate on core line of business patterns: list, search, preview, form, validation, save state, soft delete, admin-only restore, and audit.
 
 Future capabilities remain possible, but they must not shape the first implementation more than necessary.

@@ -15,22 +15,30 @@ This file captures product-owner decisions that should guide the next planning a
 | Authentication | Email and password |
 | Offline support | Not required for Phase 1 |
 | Reports | Not required for Phase 1 |
+| Core records | Person, Company, and Organization are separate models |
+| Field inspiration | Use Apple Contacts-style fields as the starting vocabulary |
+| Tags/categories | Include lightweight tags and categories |
+| Restore permission | Admin users only |
 
 ## Interpretation
 
 ### Contact Management
 
-The first vertical slice should model people and organizations well enough to prove common line of business workflows without becoming a CRM product immediately.
+The first vertical slice should model people, companies, and organizations as separate records. This keeps the design understandable for business users while allowing future CRM, service, and operations modules to reuse the same relationship model.
 
 Phase 1 should include:
 
-- Contact list.
-- Contact search.
-- Contact preview sheet.
-- Contact create/edit form.
-- Contact soft delete and restore.
+- Person list.
+- Company list.
+- Organization list.
+- Contact search across people, companies, and organizations.
+- Preview sheets for each record type.
+- Create/edit forms for each record type.
+- Soft delete for each record type.
+- Admin-only restore.
 - Basic audit fields.
 - Email/password authentication.
+- Tags/categories for lightweight grouping.
 
 Phase 1 should not include:
 
@@ -40,6 +48,35 @@ Phase 1 should not include:
 - Report designer.
 - Offline sync.
 - Native mobile application.
+
+### Apple Contacts-Inspired Fields
+
+The field vocabulary should start from the practical fields users already understand in Apple Contacts on macOS and iOS: name, organization/company, job title, phone, email, address, birthday, notes, photo, nickname, phonetic name/company, pronouns, and profile/social-style fields.
+
+fLOBster should adapt these into business-friendly models instead of copying Apple Contacts exactly.
+
+### Separate Person, Company, And Organization Models
+
+Phase 1 should treat Person, Company, and Organization as separate models:
+
+- Person: an individual human contact.
+- Company: a business/legal commercial entity.
+- Organization: a non-company entity such as department, association, government office, school, community, or internal unit.
+
+Relationships should be explicit and expandable. For Phase 1, a Person may optionally link to one Company and one Organization.
+
+### Tags And Categories
+
+Include lightweight classification:
+
+- Category: a controlled, single primary grouping for a record.
+- Tags: flexible labels for filtering and discovery.
+
+Avoid custom fields in Phase 1 unless required later.
+
+### Admin-Only Restore
+
+Only administrators can restore soft-deleted Person, Company, or Organization records. Normal users may delete only if permitted by role, but restore is admin-only in Phase 1.
 
 ### Desktop And Web First
 
@@ -74,9 +111,7 @@ Reports and report designer work are deferred. The Contact Management vertical s
 
 ## Open Decisions For Next Review
 
-- Whether contacts represent only people, or both people and organizations.
-- Whether organization/company records should be a separate model in Phase 1.
-- Required contact fields for the first form.
-- Whether tags, categories, or custom fields are needed in Phase 1.
+- Exact required fields for Person, Company, and Organization forms.
+- Whether Person can link to multiple companies/organizations in Phase 1 or only one of each.
 - Whether the first desktop target should be macOS, Windows, or both after web works.
 - Whether audit history is visible to normal users or only administrators.

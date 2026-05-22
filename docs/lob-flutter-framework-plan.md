@@ -18,7 +18,7 @@ The product should not start as a visual database builder. It should start as a 
 - Dashboards, reports, realtime notifications, and chat-based record sharing.
 - Shared Flutter UI patterns for desktop, web, and a deliberate mobile subset.
 
-The first goal is to build a vertical slice around one business domain, for example Customer / Contact / Order, then extract reusable framework packages from that working software. This keeps the framework grounded in real workflows and gives AI agents concrete acceptance criteria, test fixtures, and working examples.
+The first goal is to build a Contact Management vertical slice, then extract reusable framework packages from that working software. This keeps the framework grounded in real workflows and gives AI agents concrete acceptance criteria, test fixtures, and working examples.
 
 ## 2. Verified Technology Baseline
 
@@ -354,7 +354,7 @@ Default UX:
 - Delete action uses a confirmation dialog.
 - After delete, show undo when possible.
 - Deleted records are hidden by default.
-- Admin or permitted users can view trash and restore.
+- Administrators can view trash and restore records.
 - Hard delete is a separate privileged operation, normally only for retention policies.
 
 ## 8. CRUD Workflow Design
@@ -689,25 +689,26 @@ Exit criteria:
 
 Purpose: Prove the framework through one real business module.
 
-Recommended module: Customer / Contact Management.
+Selected module: Contact Management with separate Person, Company, and Organization models.
 
 Deliverables:
 
 - Flutter app shell.
-- Customer list view.
+- Person, Company, and Organization list views.
 - Search and filters.
 - Right-side preview sheet.
-- Full customer form.
+- Full create/edit forms for people, companies, and organizations.
 - Field validation.
 - Draft recovery.
 - Serverpod backend with PostgreSQL.
-- Soft delete and restore.
+- Soft delete and admin-only restore.
 - Audit event creation.
 - Unit, widget, and endpoint tests.
 
 Exit criteria:
 
-- A user can create, search, edit, delete, restore, and inspect customer records.
+- A user can create, search, edit, delete, and inspect people, companies, and organizations.
+- An administrator can restore soft-deleted records.
 - A crashed or closed form can be recovered from draft.
 - The same validation rules are tested outside the UI.
 
@@ -743,7 +744,7 @@ Deliverables:
 
 Exit criteria:
 
-- User A can share a customer record to User B in chat.
+- User A can share a person, company, or organization record to User B in chat.
 - User B can open it only if permission allows.
 - Notification and activity trail record the event.
 
@@ -761,7 +762,7 @@ Deliverables:
 
 Exit criteria:
 
-- A user can generate a Customer Summary report as HTML/PDF.
+- A user can generate a Contact Management summary report as HTML/PDF.
 - A dashboard can show at least three metrics without direct heavy client queries.
 
 ### Phase 5: Offline Mobile Subset
@@ -806,8 +807,8 @@ Start here:
 1. Create repository foundation: README, docs folders, ADR template, PR template, CI skeleton.
 2. Write `PRODUCT_GUIDELINE.md` from this plan and lock the first vertical slice.
 3. Create Flutter and Serverpod proof-of-concept scaffold.
-4. Define Customer model with audit and soft delete fields.
-5. Implement Customer list, preview sheet, and form as the reference workflow.
+4. Define Person, Company, and Organization models with audit and soft delete fields.
+5. Implement Contact Management lists, preview sheets, and forms as the reference workflow.
 6. Add validation and draft recovery before adding more modules.
 7. Add endpoint tests and widget tests early.
 8. Review with stakeholders before extracting framework packages.
@@ -816,7 +817,7 @@ Start here:
 
 The next planning conversation should settle:
 
-- First reference domain: Customer/Contact, Inventory, Order, or another familiar business module.
+- Required Phase 1 form fields for Person, Company, and Organization.
 - Deployment model: internal enterprise app, SaaS, or both.
 - Authentication source: Serverpod auth, Supabase auth, enterprise SSO, or staged decision.
 - Offline priority: mobile drafts only, or true offline sync.
@@ -826,6 +827,6 @@ The next planning conversation should settle:
 
 ## 18. Initial Recommendation
 
-Begin with a Customer/Contact vertical slice on Flutter desktop/web plus Serverpod/PostgreSQL. Defer mobile offline, Supabase adapter, and visual report designer until the core CRUD workflow is proven.
+Begin with a Contact Management vertical slice on Flutter desktop/web plus Serverpod/PostgreSQL. Model Person, Company, and Organization as separate records. Defer mobile offline, Supabase adapter, and visual report designer until the core CRUD workflow is proven.
 
-This is the best starting point because it exercises the framework's most important reusable pieces: list view, preview sheet, full form, validation, drafts, save states, soft delete, restore, permissions, audit, and tests.
+This is the best starting point because it exercises the framework's most important reusable pieces: list view, preview sheet, full form, validation, drafts, save states, soft delete, admin-only restore, permissions, audit, and tests.

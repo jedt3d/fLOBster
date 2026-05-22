@@ -5,15 +5,23 @@ Date: 2026-05-22
 
 ## Objective
 
-Build the first fLOBster reference module around Contact Management. The goal is to prove the framework's core line of business workflow: list, search, preview, create, edit, validate, save, soft delete, restore, and audit.
+Build the first fLOBster reference module around Contact Management. The goal is to prove the framework's core line of business workflow: list, search, preview, create, edit, validate, save, soft delete, admin-only restore, and audit.
 
 This is not yet a full CRM. It is the smallest useful business module that can validate fLOBster's architecture and UI patterns.
 
+## Product Decisions
+
+- People, companies, and organizations are separate models.
+- The first field vocabulary is inspired by Apple Contacts on macOS/iOS.
+- Tags and categories are included lightly in Phase 1.
+- Only administrators can restore deleted records.
+- Offline sync and reports are out of scope for Phase 1.
+
 ## Users
 
-- Business user: searches, views, creates, and edits contacts.
-- Power user: filters lists, corrects data, restores deleted records if permitted.
-- Administrator: manages access, restores records, and reviews audit history.
+- Business user: searches, views, creates, and edits people, companies, and organizations.
+- Power user: filters lists and corrects data.
+- Administrator: manages access, restores deleted records, and reviews audit history.
 - Developer: uses this module as the example for future modules.
 
 ## Scope
@@ -22,16 +30,19 @@ This is not yet a full CRM. It is the smallest useful business module that can v
 
 - Email/password sign in.
 - Authenticated app shell.
-- Contact list view.
-- Search by name, email, phone, organization, and tag if tags are included.
-- Sort by name, organization, last updated, and created date.
-- Right-side contact preview sheet.
-- Full contact create/edit form.
+- Person, Company, and Organization models.
+- Separate list views for people, companies, and organizations.
+- Unified contact search across people, companies, and organizations.
+- Search by name, email, phone, company, organization, category, and tag.
+- Sort by name, organization/company, last updated, and created date.
+- Right-side preview sheet.
+- Full create/edit forms.
+- Lightweight category and tag support.
 - Required field validation.
 - Email format validation.
 - Phone field normalization rules to be decided during implementation.
 - Soft delete.
-- Restore deleted contact.
+- Admin-only restore.
 - Basic audit metadata.
 - Serverpod endpoint tests.
 - Flutter ViewModel tests.
@@ -49,23 +60,26 @@ This is not yet a full CRM. It is the smallest useful business module that can v
 - Sales pipeline.
 - Advanced duplicate detection/merge.
 - Import/export.
+- Custom fields.
+
+## Field Inspiration
+
+Apple's Contacts documentation describes user-facing contact fields such as name, company, phone, email, address, birthday, notes, photo, nickname, phonetic names/company, pronouns, and profile/social-style fields. fLOBster should use that familiar field vocabulary, but adapt it into business models with server-side validation, audit, and soft-delete behavior.
+
+Sources:
+
+- [Apple Support: Add people and companies to Contacts on Mac](https://support.apple.com/en-gb/guide/contacts/adrbk1080/mac)
+- [Apple Support: Update contact information in Contacts on Mac](https://support.apple.com/en-euro/guide/contacts/adrbk1515/mac)
+- [Apple Support: Edit contacts on iPhone](https://support.apple.com/en-lamr/guide/iphone/-iph89a9c71d8/ios)
+- [Apple Support: Create or edit contacts in Contacts on iCloud.com](https://support.apple.com/en-euro/guide/icloud/create-or-edit-contacts-mmfba737da/1.0/icloud/1.0)
 
 ## Data Model Draft
 
-### Contact
+### Shared Record Metadata
 
-Minimum fields:
+Every main record should include:
 
 - `id`
-- `displayName`
-- `givenName`
-- `familyName`
-- `organizationName`
-- `jobTitle`
-- `primaryEmail`
-- `primaryPhone`
-- `secondaryPhone`
-- `notes`
 - `createdAt`
 - `createdBy`
 - `updatedAt`
@@ -77,14 +91,139 @@ Minimum fields:
 - `restoredBy`
 - `rowVersion`
 
+### Person
+
+Minimum fields:
+
+- `id`
+- `displayName`
+- `givenName`
+- `familyName`
+- `nickname`
+- `pronouns`
+- `phoneticGivenName`
+- `phoneticFamilyName`
+- `companyId`
+- `organizationId`
+- `jobTitle`
+- `primaryEmail`
+- `primaryPhone`
+- `secondaryPhone`
+- `addressLine1`
+- `addressLine2`
+- `city`
+- `region`
+- `postalCode`
+- `country`
+- `birthday`
+- `profileUrl`
+- `photoUrl`
+- `categoryId`
+- `tags`
+- `notes`
+- shared record metadata
+
 Recommended later fields:
 
-- `tags`
 - `preferredContactMethod`
-- `address`
 - `website`
 - `socialProfiles`
-- `customFields`
+- multiple company/organization relationships
+- custom fields
+
+### Company
+
+Minimum fields:
+
+- `id`
+- `displayName`
+- `legalName`
+- `phoneticName`
+- `primaryEmail`
+- `primaryPhone`
+- `website`
+- `addressLine1`
+- `addressLine2`
+- `city`
+- `region`
+- `postalCode`
+- `country`
+- `categoryId`
+- `tags`
+- `notes`
+- shared record metadata
+
+Recommended later fields:
+
+- tax identifier
+- billing address
+- shipping address
+- industry
+- company size
+- parent company
+
+### Organization
+
+Minimum fields:
+
+- `id`
+- `displayName`
+- `organizationType`
+- `phoneticName`
+- `primaryEmail`
+- `primaryPhone`
+- `website`
+- `addressLine1`
+- `addressLine2`
+- `city`
+- `region`
+- `postalCode`
+- `country`
+- `categoryId`
+- `tags`
+- `notes`
+- shared record metadata
+
+Recommended later fields:
+
+- parent organization
+- department/unit hierarchy
+- public/private sector flag
+
+### Category
+
+Minimum fields:
+
+- `id`
+- `name`
+- `description`
+- `recordType`
+- `color`
+- `sortOrder`
+- `createdAt`
+- `updatedAt`
+
+Category rules:
+
+- A record has at most one primary category.
+- Categories are controlled values, not free text.
+- Categories may be scoped by record type.
+
+### Tag
+
+Minimum fields:
+
+- `id`
+- `name`
+- `color`
+- `createdAt`
+- `updatedAt`
+
+Tag rules:
+
+- A record may have multiple tags.
+- Tags are flexible labels for filtering and discovery.
+- Tags should not replace structured fields.
 
 ### Audit Event
 
@@ -100,10 +239,18 @@ Minimum fields:
 
 Initial actions:
 
-- `contact.created`
-- `contact.updated`
-- `contact.deleted`
-- `contact.restored`
+- `person.created`
+- `person.updated`
+- `person.deleted`
+- `person.restored`
+- `company.created`
+- `company.updated`
+- `company.deleted`
+- `company.restored`
+- `organization.created`
+- `organization.updated`
+- `organization.deleted`
+- `organization.restored`
 
 ## User Workflows
 
@@ -112,34 +259,35 @@ Initial actions:
 1. User opens the app.
 2. User enters email and password.
 3. App authenticates with the backend.
-4. User lands on the Contact list.
+4. User lands on the People list.
 
 Acceptance criteria:
 
 - Invalid credentials show a page-level error.
-- Successful sign in loads the Contact list.
+- Successful sign in loads the People list.
 - Auth state survives page refresh where supported by the chosen auth package.
 
-### Contact List
+### People, Company, And Organization Lists
 
 1. User opens Contact Management.
-2. App shows a searchable table of active contacts.
-3. User searches by name, email, phone, or organization.
-4. User selects a row.
-5. App opens the right-side preview sheet.
+2. App shows a searchable table of active people by default.
+3. User can switch between People, Companies, and Organizations.
+4. User searches by name, email, phone, company, organization, category, or tag.
+5. User selects a row.
+6. App opens the right-side preview sheet.
 
 Acceptance criteria:
 
 - Loading, empty, error, and populated states are implemented.
-- Deleted contacts are hidden by default.
+- Deleted records are hidden by default.
 - Search result updates without losing app shell state.
-- Selected contact remains visually clear.
+- Selected record remains visually clear.
 
-### Contact Preview
+### Record Preview
 
-1. User selects a contact in the list.
+1. User selects a person, company, or organization in the list.
 2. Preview sheet opens from the right.
-3. User sees read-only contact details and audit summary.
+3. User sees read-only record details and audit summary.
 4. User can open the full editor.
 
 Acceptance criteria:
@@ -147,16 +295,16 @@ Acceptance criteria:
 - Preview sheet is read-only by default.
 - Preview sheet has Edit, Delete, and Close actions.
 - Delete action requires confirmation.
-- Opening editor keeps the selected contact context.
+- Opening editor keeps the selected record context.
 
-### Create Contact
+### Create Person, Company, Or Organization
 
-1. User clicks Create Contact.
-2. App opens the contact form.
+1. User clicks the relevant Create action.
+2. App opens the matching form.
 3. User enters required fields.
 4. App validates fields.
 5. User saves.
-6. Backend creates contact and audit event.
+6. Backend creates the record and audit event.
 7. App returns to list or shows saved state.
 
 Acceptance criteria:
@@ -167,13 +315,13 @@ Acceptance criteria:
 - Save failure preserves user input.
 - Successful save appears in the list.
 
-### Edit Contact
+### Edit Person, Company, Or Organization
 
-1. User opens an existing contact.
+1. User opens an existing record.
 2. User edits fields.
 3. App shows dirty state.
 4. User saves.
-5. Backend updates contact and increments `rowVersion`.
+5. Backend updates the record and increments `rowVersion`.
 
 Acceptance criteria:
 
@@ -182,18 +330,20 @@ Acceptance criteria:
 - Concurrent update conflict is detected by `rowVersion`.
 - Save failure preserves current form values.
 
-### Soft Delete And Restore
+### Soft Delete And Admin-Only Restore
 
-1. User deletes a contact.
+1. User deletes a person, company, or organization.
 2. Backend sets delete metadata instead of hard deleting.
-3. Contact disappears from active list.
-4. Permitted user opens deleted contacts view.
-5. User restores contact.
+3. Record disappears from active list.
+4. Admin opens deleted records view.
+5. Admin restores record.
 
 Acceptance criteria:
 
 - Delete requires confirmation.
-- Active list excludes deleted contacts.
+- Active lists exclude deleted records.
+- Restore action is visible only to administrators.
+- Server rejects restore from non-admin users.
 - Restore clears active deletion state and records restore metadata.
 - Audit events exist for delete and restore.
 
@@ -245,18 +395,19 @@ Flutter client:
 
 Backend:
 
-- Serverpod endpoints for contact CRUD.
+- Serverpod endpoints for Person, Company, and Organization CRUD.
 - PostgreSQL persistence.
 - Server-side validation.
 - Soft delete enforced server-side.
+- Admin-only restore enforced server-side.
 - Audit event creation inside server-side command flow.
 
 ## Testing Requirements
 
 Unit tests:
 
-- Contact validation.
-- Contact ViewModel state transitions.
+- Person, Company, and Organization validation.
+- Contact Management ViewModel state transitions.
 - Soft delete and restore command behavior.
 - Conflict handling logic.
 
@@ -266,17 +417,19 @@ Widget tests:
 - Preview sheet opens on row selection.
 - Form displays validation errors.
 - Delete confirmation appears.
+- Restore action is hidden for non-admin users.
 
 Server tests:
 
-- Create contact.
-- Update contact.
-- Reject invalid contact.
-- Soft delete contact.
-- Restore contact.
-- Exclude deleted contacts from active list.
+- Create person, company, and organization.
+- Update person, company, and organization.
+- Reject invalid records.
+- Soft delete records.
+- Restore records as admin.
+- Reject restore as non-admin.
+- Exclude deleted records from active lists.
 - Create audit event on create/update/delete/restore.
 
 ## Phase 1 Exit Criteria
 
-The vertical slice is complete when a signed-in user can manage contacts end to end from a desktop/web Flutter UI backed by Serverpod and PostgreSQL, with tests covering the main workflows and documentation explaining how the module should be used as a reference for future modules.
+The vertical slice is complete when a signed-in user can manage people, companies, and organizations end to end from a desktop/web Flutter UI backed by Serverpod and PostgreSQL, with admin-only restore behavior enforced server-side and tests covering the main workflows.

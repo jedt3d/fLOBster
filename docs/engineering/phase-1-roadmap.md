@@ -15,7 +15,9 @@ Phase 1 includes:
 - Serverpod backend.
 - PostgreSQL database.
 - Email/password sign in.
-- Contact list, search, preview, create, edit, soft delete, restore.
+- Person, Company, and Organization list/search/preview/create/edit/soft delete.
+- Admin-only restore.
+- Lightweight categories and tags.
 - Basic audit events.
 - Automated tests around the reference workflow.
 
@@ -60,27 +62,34 @@ Done when:
 
 - A user can sign in, reach the Contact list shell, refresh the web app, and sign out.
 
-### 3. Contact Backend
+### 3. Contact Management Backend
 
 Deliverables:
 
-- Contact model.
+- Person model.
+- Company model.
+- Organization model.
+- Category model.
+- Tag model.
 - Audit event model.
 - PostgreSQL migration.
 - Serverpod endpoints.
 - Validation.
-- Soft delete and restore behavior.
+- Soft delete and admin-only restore behavior.
 - Endpoint tests.
 
 Done when:
 
-- Backend tests prove create, read, update, soft delete, restore, and audit event creation.
+- Backend tests prove create, read, update, soft delete, admin-only restore, and audit event creation for people, companies, and organizations.
 
-### 4. Contact List And Preview
+### 4. Contact Management Lists And Preview
 
 Deliverables:
 
-- Contact list ViewModel.
+- People list ViewModel.
+- Company list ViewModel.
+- Organization list ViewModel.
+- Unified search behavior.
 - Contact repository interface.
 - Serverpod repository implementation.
 - Search and sort behavior.
@@ -90,13 +99,15 @@ Deliverables:
 
 Done when:
 
-- A signed-in user can browse, search, select, and preview contacts.
+- A signed-in user can browse, search, select, and preview people, companies, and organizations.
 
-### 5. Contact Form
+### 5. Contact Management Forms
 
 Deliverables:
 
-- Create/edit form.
+- Person create/edit form.
+- Company create/edit form.
+- Organization create/edit form.
 - Field validation.
 - Dirty state.
 - Save status.
@@ -106,21 +117,21 @@ Deliverables:
 
 Done when:
 
-- A signed-in user can create and edit contacts with validation and visible save status.
+- A signed-in user can create and edit people, companies, and organizations with validation and visible save status.
 
 ### 6. Soft Delete And Restore UI
 
 Deliverables:
 
 - Delete confirmation.
-- Deleted contacts filter/view.
-- Restore action.
+- Deleted records filter/view.
+- Admin-only restore action.
 - Permission-ready UI hooks.
 - Tests for delete and restore flows.
 
 Done when:
 
-- A permitted user can soft delete and restore contacts from the UI.
+- A permitted user can soft delete records, and only an administrator can restore them from the UI.
 
 ### 7. Documentation And Review
 
@@ -160,8 +171,6 @@ Done when:
 
 Before implementation, confirm:
 
-- Required contact fields for the first version.
-- Whether organization/company should be a separate model now or just a text field.
-- Whether tags are needed in Phase 1.
+- Exact required fields for Person, Company, and Organization forms.
+- Whether Person can link to multiple companies/organizations in Phase 1 or only one of each.
 - Which desktop runtime matters first after web: macOS or Windows.
-- Whether normal users can restore deleted contacts or only administrators.
