@@ -1,0 +1,23 @@
+name: flobster_reporting
+description: "High-performance reporting engine for fLOBster, supporting PDF and dynamic HTML template outputs."
+version: 0.0.1
+publish_to: 'none'
+
+environment:
+  sdk: '>=3.11.0 <4.0.0'
+  flutter: ">=3.0.0"
+
+resolution: workspace
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flobster_core:
+    path: ../flobster_core
+  pdf: ^3.11.1
+  mustache_template: ^2.0.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0

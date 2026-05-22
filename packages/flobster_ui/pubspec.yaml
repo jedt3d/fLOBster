@@ -1,0 +1,25 @@
+name: flobster_ui
+description: "Premium Line of Business (LOB) UI library, themes, responsive widgets and sliding sheets."
+version: 0.0.1
+publish_to: 'none'
+
+environment:
+  sdk: '>=3.11.0 <4.0.0'
+  flutter: ">=3.0.0"
+
+resolution: workspace
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flobster_core:
+    path: ../flobster_core
+  flutter_riverpod: ^2.5.0
+  google_fonts: ^6.2.0
+  fl_chart: ^0.68.0
+  animations: ^2.0.11
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
