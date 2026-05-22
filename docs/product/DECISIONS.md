@@ -19,7 +19,8 @@ This file captures product-owner decisions that should guide the next planning a
 | Field inspiration | Use Apple Contacts-style fields as the starting vocabulary |
 | Tags/categories | Include lightweight tags and categories |
 | Restore permission | Admin users only |
-| Person relationship scope | One Person links to at most one Company in Phase 1 |
+| Delete permission | Admin users only |
+| Person relationship scope | One Person links to at most one Company and one Organization in Phase 1 |
 | Audit visibility | Admin users only |
 
 ## Interpretation
@@ -36,7 +37,7 @@ Phase 1 should include:
 - Contact search across people, companies, and organizations.
 - Preview sheets for each record type.
 - Create/edit forms for each record type.
-- Soft delete for each record type.
+- Admin-only soft delete for each record type.
 - Admin-only restore.
 - Basic audit fields.
 - Email/password authentication.
@@ -65,7 +66,7 @@ Phase 1 should treat Person, Company, and Organization as separate models:
 - Company: a business/legal commercial entity.
 - Organization: a non-company entity such as department, association, government office, school, community, or internal unit.
 
-Relationships should be explicit and expandable. For Phase 1, a Person may optionally link to one Company. Multiple company relationships are deferred.
+Relationships should be explicit and expandable. For Phase 1, a Person may optionally link to one Company and one Organization. Multiple company and multiple organization relationships are deferred.
 
 ### Tags And Categories
 
@@ -76,9 +77,9 @@ Include lightweight classification:
 
 Avoid custom fields in Phase 1 unless required later.
 
-### Admin-Only Restore
+### Admin-Only Delete And Restore
 
-Only administrators can restore soft-deleted Person, Company, or Organization records. Normal users may delete only if permitted by role, but restore is admin-only in Phase 1.
+Only administrators can soft delete or restore Person, Company, or Organization records in Phase 1.
 
 ### macOS Desktop First
 
@@ -119,5 +120,4 @@ Reports and report designer work are deferred. The Contact Management vertical s
 ## Open Decisions For Next Review
 
 - Exact required fields for Person, Company, and Organization forms.
-- Whether Person should link to Organization in Phase 1.
-- Required permissions for normal users to delete records.
+- Whether normal users can create and edit all records, or whether create/edit also needs role separation.

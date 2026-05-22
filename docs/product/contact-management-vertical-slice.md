@@ -16,6 +16,8 @@ This is not yet a full CRM. It is the smallest useful business module that can v
 - Tags and categories are included lightly in Phase 1.
 - Only administrators can restore deleted records.
 - A person can link to only one company in Phase 1.
+- A person can link to only one organization in Phase 1.
+- Only administrators can delete records.
 - Audit history is visible only to administrators.
 - macOS desktop is the first deployment target, followed by Windows, then web.
 - Offline sync and reports are out of scope for Phase 1.
@@ -44,7 +46,7 @@ This is not yet a full CRM. It is the smallest useful business module that can v
 - Required field validation.
 - Email format validation.
 - Phone field normalization rules to be decided during implementation.
-- Soft delete.
+- Admin-only soft delete.
 - Admin-only restore.
 - Basic audit metadata.
 - Serverpod endpoint tests.
@@ -134,7 +136,7 @@ Recommended later fields:
 - `website`
 - `socialProfiles`
 - multiple company relationships
-- organization relationship rules
+- multiple organization relationships
 - custom fields
 
 ### Company
@@ -338,9 +340,9 @@ Acceptance criteria:
 - Concurrent update conflict is detected by `rowVersion`.
 - Save failure preserves current form values.
 
-### Soft Delete And Admin-Only Restore
+### Admin-Only Soft Delete And Restore
 
-1. User deletes a person, company, or organization.
+1. Admin deletes a person, company, or organization.
 2. Backend sets delete metadata instead of hard deleting.
 3. Record disappears from active list.
 4. Admin opens deleted records view.
@@ -348,7 +350,9 @@ Acceptance criteria:
 
 Acceptance criteria:
 
-- Delete requires confirmation.
+- Delete action is visible only to administrators.
+- Server rejects delete from non-admin users.
+- Admin delete requires confirmation.
 - Active lists exclude deleted records.
 - Restore action is visible only to administrators.
 - Server rejects restore from non-admin users.
@@ -425,7 +429,8 @@ Widget tests:
 - List loading/empty/error/populated states.
 - Preview sheet opens on row selection.
 - Form displays validation errors.
-- Delete confirmation appears.
+- Delete action is hidden for non-admin users.
+- Delete confirmation appears for admin users.
 - Restore action is hidden for non-admin users.
 - Audit history is hidden for non-admin users.
 
@@ -434,7 +439,8 @@ Server tests:
 - Create person, company, and organization.
 - Update person, company, and organization.
 - Reject invalid records.
-- Soft delete records.
+- Soft delete records as admin.
+- Reject soft delete as non-admin.
 - Restore records as admin.
 - Reject restore as non-admin.
 - Return audit history to admin users.

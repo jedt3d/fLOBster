@@ -15,8 +15,8 @@ Phase 1 includes:
 - Serverpod backend.
 - PostgreSQL database.
 - Email/password sign in.
-- Person, Company, and Organization list/search/preview/create/edit/soft delete.
-- Admin-only restore.
+- Person, Company, and Organization list/search/preview/create/edit.
+- Admin-only soft delete and restore.
 - Lightweight categories and tags.
 - Basic audit events.
 - Admin-only audit history visibility.
@@ -77,13 +77,13 @@ Deliverables:
 - PostgreSQL migration.
 - Serverpod endpoints.
 - Validation.
-- Soft delete and admin-only restore behavior.
+- Admin-only soft delete and restore behavior.
 - Admin-only audit history access.
 - Endpoint tests.
 
 Done when:
 
-- Backend tests prove create, read, update, soft delete, admin-only restore, admin-only audit access, and audit event creation for people, companies, and organizations.
+- Backend tests prove create, read, update, admin-only soft delete, admin-only restore, admin-only audit access, and audit event creation for people, companies, and organizations.
 
 ### 4. Contact Management Lists And Preview
 
@@ -117,6 +117,7 @@ Deliverables:
 - Conflict handling using `rowVersion`.
 - Save failure recovery.
 - One-company-per-person relationship rule.
+- One-organization-per-person relationship rule.
 - Widget and ViewModel tests.
 
 Done when:
@@ -135,7 +136,7 @@ Deliverables:
 
 Done when:
 
-- A permitted user can soft delete records, and only an administrator can restore them from the UI.
+- Only an administrator can soft delete and restore records from the UI.
 
 ### 7. Documentation And Review
 
@@ -177,5 +178,4 @@ Done when:
 Before implementation, confirm:
 
 - Exact required fields for Person, Company, and Organization forms.
-- Whether Person should link to Organization in Phase 1.
-- Required permissions for normal users to delete records.
+- Whether normal users can create and edit all records, or whether create/edit also needs role separation.

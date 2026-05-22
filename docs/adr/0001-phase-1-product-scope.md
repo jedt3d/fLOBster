@@ -20,9 +20,9 @@ The selected stack is:
 - PostgreSQL.
 - Email/password authentication.
 - Lightweight categories and tags.
-- Admin-only restore for soft-deleted records.
+- Admin-only soft delete and restore for records.
 - Admin-only audit history visibility.
-- One company per person in Phase 1.
+- One company and one organization per person in Phase 1.
 
 Phase 1 explicitly excludes:
 
@@ -39,6 +39,6 @@ Phase 1 explicitly excludes:
 
 ## Consequences
 
-The first implementation can concentrate on core line of business patterns: list, search, preview, form, validation, save state, soft delete, admin-only restore, and admin-only audit history.
+The first implementation can concentrate on core line of business patterns: list, search, preview, form, validation, save state, admin-only soft delete, admin-only restore, and admin-only audit history.
 
 Future capabilities remain possible, but they must not shape the first implementation more than necessary.

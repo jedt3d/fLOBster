@@ -354,7 +354,7 @@ Default UX:
 - Delete action uses a confirmation dialog.
 - After delete, show undo when possible.
 - Deleted records are hidden by default.
-- Administrators can view trash and restore records.
+- Administrators can delete, view trash, and restore records in Phase 1.
 - Hard delete is a separate privileged operation, normally only for retention policies.
 
 ## 8. CRUD Workflow Design
@@ -701,13 +701,14 @@ Deliverables:
 - Field validation.
 - Draft recovery.
 - Serverpod backend with PostgreSQL.
-- Soft delete and admin-only restore.
+- Admin-only soft delete and restore.
 - Audit event creation.
 - Unit, widget, and endpoint tests.
 
 Exit criteria:
 
-- A user can create, search, edit, delete, and inspect people, companies, and organizations.
+- A user can create, search, edit, and inspect people, companies, and organizations.
+- An administrator can soft delete records.
 - An administrator can restore soft-deleted records.
 - A crashed or closed form can be recovered from draft.
 - The same validation rules are tested outside the UI.
@@ -829,4 +830,4 @@ The next planning conversation should settle:
 
 Begin with a Contact Management vertical slice on Flutter macOS desktop plus Serverpod/PostgreSQL. Model Person, Company, and Organization as separate records. Defer Windows, web, mobile offline, Supabase adapter, and visual report designer until the core CRUD workflow is proven.
 
-This is the best starting point because it exercises the framework's most important reusable pieces: list view, preview sheet, full form, validation, drafts, save states, soft delete, admin-only restore, permissions, audit, and tests.
+This is the best starting point because it exercises the framework's most important reusable pieces: list view, preview sheet, full form, validation, drafts, save states, admin-only soft delete, admin-only restore, permissions, audit, and tests.
